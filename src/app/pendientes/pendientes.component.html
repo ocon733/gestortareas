@@ -1,0 +1,57 @@
+
+<button type="button" class="btn btn-link" (click)="mostrarFiltro()">Filtro</button>
+<div id="buscador" class="well" [@filtroVisible]="mostrar">
+<form>
+<div class="row" >
+  <div class="col-md-5">
+    <label >Desc. tarea:</label>
+    <input type="text" [(ngModel)]="filtro.descripcion" name="descripcion" [ngModelOptions]="{standalone: true}"> 
+  </div>
+  <div class="col-md-4">
+    <label for="cbproyectos">Proyecto:</label> 
+    <select id="cbproyectos" [(ngModel)]="filtro.idproyecto" [ngModelOptions]="{standalone: true}">
+      <option value="">- Seleccionar -</option>
+      <option *ngFor="let item of proyectos" value="{{item.id_proyecto}}">{{item.nombre_proyecto}}</option>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <label >Estado:</label> 
+    <select id="cbestado" [(ngModel)]="filtro.estado" [ngModelOptions]="{standalone: true}">
+      <option value="">- Seleccionar -</option>
+      <option value="Sin iniciar">Sin iniciar</option>
+      <option value="Iniciado">Iniciado</option>
+      <option value="Avanzado">Avanzado</option>
+      <option value="Detenido">Detenido</option>
+      <option value="Finalizado">Finalizado</option>
+      <option value="Terminado">Terminado</option>
+    </select>
+    </div>
+</div>
+<button class="btn" (click)="listarTareas()">Buscar</button>
+</form>
+</div>
+<div class="contenTable">
+  <table class="table table-bordered table-responsive" >
+    <thead>
+      <th class="text-center">Sel.</th>
+      <th class="text-center">Proyecto</th>
+      <th class="text-center">Descripción</th>
+      <th class="text-center">Estado</th>
+      <th class="text-center">Fecha inicio</th>
+      <th class="text-center">Fecha fin</th>
+    </thead>
+    <tr *ngFor="let item of tareas">
+      <td><input type="radio" name="selT" (click)="selecionarTarea(item.id)"></td>
+      <td>{{item.nombreproyecto}}</td>
+      <td>{{item.descripcion}}</td>
+      <td>{{item.estado}}</td>
+      <td>{{item.fechaInicio}}</td>
+      <td>{{item.fechaFin}}</td>
+    </tr>
+  </table>
+</div>
+<div class="well">
+  <button class="btn btn-danger" (click)="borrarTarea()">Borrar</button>
+  <button class="btn btn-success" (click)="editarTarea()">Editar</button>
+</div>
+  

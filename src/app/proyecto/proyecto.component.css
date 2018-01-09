@@ -1,0 +1,26 @@
+h3{
+    text-align: center;
+    font-weight: bold;
+}
+
+.novalido{
+    width: 5px;
+    height:25px;
+    background-color: RED;
+    float:left;
+    margin-right:4px;
+}
+
+.valido{
+/*
+    width: 5px;
+    height:25px;
+    background-color: GREEN;
+    float:left;
+    margin-right:4px;
+*/
+}
+
+label{
+    width:150px;
+}

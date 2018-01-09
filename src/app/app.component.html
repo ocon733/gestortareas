@@ -1,3 +1,9 @@
-<h1>
-  {{title}}
-</h1>
+<div [hidden]="!registrado">
+    <app-cabecera [user]="userReg" (emLogin)="identificacion($event)"></app-cabecera>
+    <app-menu></app-menu>
+    <router-outlet></router-outlet>
+    <app-pie></app-pie>
+</div>
+<div [hidden]="registrado">
+     <app-login (emLogin)="identificacion($event)"></app-login>
+</div>        

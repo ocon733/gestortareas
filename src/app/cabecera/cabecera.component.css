@@ -1,0 +1,37 @@
+
+.cabecera{
+    float:right;
+}
+
+.letrasSombra{
+    text-shadow: 4px 4px 3px rgba(150, 155, 233, 0.76);
+    float:left;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-top:8px;
+    padding-left: 8px;
+}
+
+.diahoy{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-style: italic;
+    color:darkblue;
+}
+
+.cajasombra{
+    -webkit-box-shadow: 0px 11px 13px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 11px 13px -6px rgba(0,0,0,0.75);
+    box-shadow: 0px 11px 13px -6px rgba(0,0,0,0.75);
+ 
+    padding:5px;
+    margin-bottom:6px;
+    background: -webkit-linear-gradient(#e6e6ff,#adadfc); 
+    background: -o-linear-gradient(#e6e6ff,#adadfc); 
+    background: -moz-linear-gradient(#e6e6ff,hsl(240, 93%, 83%)); 
+    background: linear-gradient(#e6e6ff,#adadfc);
+    border-color: #8080f1;  
+    border-style: solid;
+    border-width: 1px; 
+}

@@ -1,0 +1,12 @@
+<div class="cajasombra">
+<H4 class="letrasSombra">GESTOR TAREAS</H4>
+<div class="cabecera">
+  <span class="diahoy">{{hoy}}</span>
+  <span *ngIf="user.idUser !=''" class="textoUser">
+    {{user.nombre}}  {{user.apellido}}
+    <button class="btn btn-primary" type="button" id="b_logout" (click)="logout()">Salir</button>  
+  </span>
+</div>
+<div style="clear:both;"></div>
+</div>
+

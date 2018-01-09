@@ -1,0 +1,28 @@
+<div class="elemento">
+  <div class="novalido" [hidden]="valido"></div>
+  <div class="valido" [hidden]="!valido"></div>
+  <span class="lbl_etiqueta">  
+    <label>{{etiqueta}}: </label>
+  </span>
+  <div style="float:right">
+  <span>
+   <label>Día</label>
+   
+   <select [(ngModel)]="dia" (change)="validar()">
+     <option *ngFor='let dias of listadias' [ngValue]="dias.value" >{{dias.label}}</option>
+   </select>
+  
+  </span>
+  <span>
+      <label>Mes</label>
+      <select [(ngModel)]="mes"  (change)="validar()">
+        <option *ngFor="let meses of listameses" [ngValue]="meses.value">{{meses.label}}</option>
+      </select>
+     </span>
+     <span>
+        <label>Año</label>
+        <input type="number" min="0" size="3000" style="text-align:right;width:50px;" [(ngModel)]="anyo"
+         (change)="validar()"/>
+       </span>
+      </div>
+</div>

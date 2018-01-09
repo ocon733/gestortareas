@@ -1,0 +1,35 @@
+<h3>PROYECTO</h3><hr/>
+
+<form>
+    <div class="well">
+<div class="row" >
+    <div class="col-md-10 form-group">
+       
+      <div class="novalido" [hidden]="nombre_valido"></div>
+      <div class="valido" [hidden]="!nombre_valido"></div>
+      <label >Nombre del proyecto:</label>
+      <input type="text" size="80" maxlength="100" (change)="validar()"
+       [(ngModel)]="proyecto.nombre_proyecto" name="nombre" [ngModelOptions]="{standalone: true}"> 
+  </div> 
+</div> 
+
+<div class="row" >
+  <div class="col-md-10 form-group">
+     
+    <div class="novalido" [hidden]="desc_valido"></div>
+    <div class="valido" [hidden]="!desc_valido"></div>
+    <label >Descripción del proyecto:</label>
+    <input type="text" size="80" maxlength="100" (change)="validar()"
+     [(ngModel)]="proyecto.descripcion" name="descripcion" [ngModelOptions]="{standalone: true}"> 
+</div> 
+</div> 
+
+
+</div>
+</form>
+
+<div class="well">
+    <button class="btn btn-info" (click)="cancelarTarea()">Cancelar</button>
+    <button class="btn btn-success" (click)="guardarProyecto()">Guardar</button>
+ </div>
+
