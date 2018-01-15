@@ -5,4 +5,5 @@ import { Usuarios} from './model/usuarios';
 export class GlobalService {
 
     public usuario:Usuarios = new Usuarios();
+    public cargando:boolean;
 }      

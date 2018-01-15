@@ -123,21 +123,27 @@ export class TareaComponent implements OnInit {
         this.tarea.fechaFin = "";
       }
 
-      if ( this.tarea.id == ""){   
+      if ( this.tarea.id == ""){
+        this._global.cargando = false;   
       this._tareaservice.setTarea( this.tarea).subscribe(result=>{
         //this.actualizaProyecto(result)
+        this._global.cargando = true;
          alert("Tarea guardada");
          this.router.navigateByUrl('/pendientes');
         },
         error => { 
+          this._global.cargando = true;
             alert("Error al guardar la tarea");
         });
      }else{
+      this._global.cargando = false;
       this._tareaservice.updateTarea( this.tarea).subscribe(result=>{
+        this._global.cargando = true;
         alert("Tarea actualizada");
         this.router.navigateByUrl('/pendientes');
         },
         error => { 
+          this._global.cargando = true;
           alert("Error al guardar la tarea");
         });
      }

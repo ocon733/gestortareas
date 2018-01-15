@@ -23,10 +23,14 @@ export class LoginComponent  {
 
 
   entradalogin(){
+    this._global.cargando = false;
     this._tareaservice.getLogin(this.userlogin.email,this.userlogin.clave).subscribe(
-        result =>{ this.validaLogin(result); },
+        result =>{ this.validaLogin(result);
+          this._global.cargando = true; 
+         },
         error => {
             this.errorMensaje = <any>error;
+            this._global.cargando = true;
             if(this.errorMensaje !== null){
                 console.log(this.errorMensaje);
             }

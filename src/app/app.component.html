@@ -4,6 +4,7 @@
     <router-outlet></router-outlet>
     <app-pie></app-pie>
 </div>
+<div [hidden]="_global.cargando" class="spinner"></div>        
 <div [hidden]="registrado">
      <app-login (emLogin)="identificacion($event)"></app-login>
 </div>        

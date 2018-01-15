@@ -34,11 +34,13 @@ export class PendientesComponent implements OnInit {
 
   constructor(private _tareaservice: TareasService,private _global: GlobalService, private router:Router) {
 
-    
+      this._global.cargando = false;
       _tareaservice.getProyectos(_global.usuario.idUser).subscribe(result=>{
-          this.actualizaProyecto(result)
+          this.actualizaProyecto(result);
+          this._global.cargando = true;
           },
           error => { this.errorMessage = <any>error;
+                this._global.cargando = true;
                   if(this.errorMessage !== null){
                        console.log(this.errorMessage);
                    } 
@@ -82,8 +84,12 @@ export class PendientesComponent implements OnInit {
 
 
   listarTareas(){
-     this._tareaservice.getTareas(this._global.usuario.idUser,this.filtro.idproyecto,this.filtro.descripcion,this.filtro.estado).subscribe(result =>{ this.pintaTabla(result)},
+    this._global.cargando = false;
+     this._tareaservice.getTareas(this._global.usuario.idUser,this.filtro.idproyecto,this.filtro.descripcion,this.filtro.estado).subscribe(result =>{ 
+       this.pintaTabla(result);
+       this._global.cargando = true;},
           error => { this.errorMessage = <any>error;
+                  this._global.cargando = true;
                   if(this.errorMessage !== null){
                        console.log(this.errorMessage);
                    } 

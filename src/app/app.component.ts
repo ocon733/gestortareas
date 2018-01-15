@@ -14,6 +14,7 @@ export class AppComponent {
 
   constructor (public _global: GlobalService){
     //this.registrado = _global.usuario;
+    _global.cargando = true;
   }
 
   identificacion(event){
