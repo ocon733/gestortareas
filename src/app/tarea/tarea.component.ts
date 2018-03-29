@@ -5,10 +5,11 @@ import { TareasService } from '../tareas.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {IMyDpOptions} from 'mydatepicker';
 import { GlobalService } from '../global.service';
+import { ElementDef } from '@angular/core/src/view';
 
 @Component({
   selector: 'app-tarea',
-  providers: [TareasService],
+  providers: [],
   templateUrl: './tarea.component.html',
   styleUrls: ['./tarea.component.css']
 })
@@ -17,10 +18,9 @@ export class TareaComponent implements OnInit {
   public tarea:Tareas = new Tareas();
   public errorMessage:any;
   public proyectos:Proyectos[];
-  public id:number;
-  desc_valido:Boolean = false;
-  proyecto_valido:Boolean = false;
-  estado_valido:Boolean = false;
+  public id:number;  
+  public proyecto_valido:Boolean = false;
+  public estado_valido:Boolean = false;
   public modelfini:any = {  };
   public modelffin:any = {  };
 
@@ -107,8 +107,38 @@ export class TareaComponent implements OnInit {
     this.router.navigateByUrl('/pendientes');
   }
 
-  guardarTarea(){
-    if (this.desc_valido && this.estado_valido && this.proyecto_valido ){
+
+
+  public borrarTarea(){
+
+    if ( this.tarea.id == ""){
+      this.cancelarTarea();
+    }else{
+      let resp = false;
+      resp =  confirm("¿Desea borrar esta tarea?");
+        if ( resp ){
+      
+          this._tareaservice.borraTarea(this.tarea.id).subscribe(result =>{ 
+            this.cancelarTarea(),
+            error => { this.errorMessage = <any>error;
+                  if(this.errorMessage !== null){
+                      console.log(this.errorMessage);
+              } 
+            }
+        });
+      }
+    }  
+  }
+
+
+  onSubmit(form:any){
+
+    
+   
+    this.tarea.descripcion = form.controls.descripcion.value;
+
+
+    if (this.estado_valido && this.proyecto_valido ){
 
       this.tarea.idUsuario = this._global.usuario.idUser;
       if ( this.modelfini != null && this.modelfini != "undefined" && this.modelfini != ""){
@@ -128,7 +158,7 @@ export class TareaComponent implements OnInit {
       this._tareaservice.setTarea( this.tarea).subscribe(result=>{
         //this.actualizaProyecto(result)
         this._global.cargando = true;
-         alert("Tarea guardada");
+         //alert("Tarea guardada");
          this.router.navigateByUrl('/pendientes');
         },
         error => { 
@@ -139,7 +169,7 @@ export class TareaComponent implements OnInit {
       this._global.cargando = false;
       this._tareaservice.updateTarea( this.tarea).subscribe(result=>{
         this._global.cargando = true;
-        alert("Tarea actualizada");
+        //alert("Tarea actualizada");
         this.router.navigateByUrl('/pendientes');
         },
         error => { 
@@ -174,13 +204,10 @@ export class TareaComponent implements OnInit {
  /** Validar formulario */
   validar(){
 
-    this.desc_valido = true;
     this.estado_valido = true;
     this.proyecto_valido = true;
 
-    if ( this.tarea.descripcion == undefined || this.tarea.descripcion == ""){
-      this.desc_valido = false;
-    }
+
     if ( this.tarea.estado == undefined || this.tarea.estado == ""){
       this.estado_valido = false;
     }

@@ -9,6 +9,10 @@ label{
     padding: 10px;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
 .contenTable{
     margin-left: 10px;
     margin-right: 10px;

@@ -6,7 +6,7 @@ import { GlobalService } from '../global.service';
 
 @Component({
   selector: 'app-login',
-  providers: [TareasService],
+  providers: [],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -62,3 +62,12 @@ export class LoginComponent  {
   }
 
 } 
+
+
+/**
+ * git init
+ * git add *
+ * git commit -m "Comentario subida"
+ * git push -u origin master
+ * //configuración git en .git/config
+ */

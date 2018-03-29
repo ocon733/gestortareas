@@ -4,7 +4,7 @@ import { GlobalService } from './global.service';
 
 @Component({
   selector: 'app-root',
-  providers: [GlobalService],
+  providers: [],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

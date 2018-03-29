@@ -3,19 +3,18 @@ import { Proyectos} from '../model/proyectos';
 import { TareasService } from '../tareas.service';
 import { GlobalService } from '../global.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 
 
 @Component({
   selector: 'app-proyecto',
-  providers: [TareasService],
+  providers: [],
   templateUrl: './proyecto.component.html',
   styleUrls: ['./proyecto.component.css']
 })
 export class ProyectoComponent implements OnInit {
 
-  desc_valido:Boolean = false;
-  nombre_valido:Boolean = false;
   proyecto:Proyectos = new Proyectos();
   id:number;
   
@@ -28,41 +27,26 @@ export class ProyectoComponent implements OnInit {
   }
 
 
-   /** Validar formulario */
-   validar(){
-    
-        this.desc_valido = true;
-        this.nombre_valido = true;
-    
-        if ( this.proyecto.descripcion == undefined || this.proyecto.descripcion == ""){
-          this.desc_valido = false;
-        }
-        if ( this.proyecto.nombre_proyecto == undefined || this.proyecto.nombre_proyecto == ""){
-          this.nombre_valido = false;
-        }
-      }
-
 
   cancelarTarea(){
      this.router.navigateByUrl('/pendientes');
   }    
 
-  guardarProyecto(){
-        if (this.desc_valido && this.nombre_valido ){
-    
+  guardarProyecto(form:NgForm){
           this.proyecto.idUsuario = this._global.usuario.idUser;
+          this.proyecto.descripcion =  form.controls.descripcion.value;
+          this.proyecto.nombre_proyecto =  form.controls.nombre.value;
     
           this._tareaservice.setProyectos( this.proyecto).subscribe(result=>{
-             alert("Proyecto guardada");
+             //alert("Proyecto guardada");
              this.router.navigateByUrl('/pendientes');
             },
             error => { 
-                alert("Error al guardar la tarea");
+              alert("Error al guardar la tarea");
             });
          }
-    }
-        
 }
+
        
 
 

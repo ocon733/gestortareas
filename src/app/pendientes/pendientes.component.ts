@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output } from '@angular/core';
 import { Tareas} from '../model/tareas';
 import { Proyectos} from '../model/proyectos';
 import { Router } from '@angular/router';
@@ -6,11 +6,11 @@ import { TareasService } from '../tareas.service';
 import { trigger,  state,  style,  animate,  transition } from '@angular/core';
 import { GlobalService } from '../global.service';
 import { Formatos} from '../utilidades/formatos';
-
+import { Observable} from 'rxjs/Rx';
 
 @Component({
   selector: 'app-pendientes',
-  providers: [TareasService],
+  providers: [],
   templateUrl: './pendientes.component.html',
   styleUrls: ['./pendientes.component.css'],
   animations:[
@@ -27,10 +27,10 @@ export class PendientesComponent implements OnInit {
   public filtro:Tareas;
   public proyectos:Proyectos[];
   public errorMessage:any;
-  public mostrar:string = "sinFiltro";
+  public mostrar:string = "conFiltro";
   public tareaSel:string = "";
-
   
+  @ViewChild('descripciont') descripciont: ElementRef; 
 
   constructor(private _tareaservice: TareasService,private _global: GlobalService, private router:Router) {
 
@@ -52,8 +52,27 @@ export class PendientesComponent implements OnInit {
     this.filtro = new Tareas(); 
     this.filtro.descripcion = "";
 
+    
+    Observable.fromEvent(this.descripciont.nativeElement, 'keyup')
+    .map((e:any)=> e.target.value)
+    .filter(x=>x.length > 3 || x.length == 0)
+    .debounceTime(2000)
+    .distinctUntilChanged()
+    .switchMap(word => this._tareaservice.getTareas(this._global.usuario.idUser,this.filtro.idproyecto,this.filtro.descripcion,this.filtro.estado))
+    .subscribe(result =>{ 
+      this.pintaTabla(result);
+      this._global.cargando = true;},
+         error => { this.errorMessage = <any>error;
+                 this._global.cargando = true;
+                 if(this.errorMessage !== null){
+                      console.log(this.errorMessage);
+                  } 
+     }); 
+     
+
     this.listarTareas();
   }
+
 
   actualizaProyecto(obj){
     var proyect : Proyectos;
@@ -74,11 +93,17 @@ export class PendientesComponent implements OnInit {
     this.proyectos = misproyectos;                
   }
 
-  mostrarFiltro(){
+
+  mostrarFiltro(elem,txt){
+    
     if ( this.mostrar == 'sinFiltro') {
       this.mostrar = 'conFiltro';
+      txt.innerText ="  Ocultar filtro";
+      elem.className = 'glyphicon glyphicon-chevron-down';
     }else{
       this.mostrar= 'sinFiltro';
+      txt.innerText ="  Mostrar filtro";
+      elem.className= 'glyphicon glyphicon-chevron-right';
     }
   }
 
@@ -114,58 +139,41 @@ export class PendientesComponent implements OnInit {
                           tarea.estado  = item.estado;
                           tarea.descripcion = item.descripcion;
                           tarea.idproyecto = item.id_proyecto;
-                          tarea.nombreproyecto = "";
+                          tarea.nombreproyecto = item.nombre_proyecto;
                           tareas.push(tarea);
                       
                       });
                     }
     this.tareas = tareas;   
     this.tareaSel = "";
-    this.getnombreproyecto();
   }
 
 
 
+  public colorEstado(estado:string){
+    let color:string="#000000";
 
-  public getnombreproyecto(){
-    for(let i=0; i<this.tareas.length; i++){
-      for(let e=0; e<this.proyectos.length; e++){
-        if( this.tareas[i].idproyecto == this.proyectos[e].id_proyecto){
-          this.tareas[i].nombreproyecto = this.proyectos[e].nombre_proyecto;
-        }
-      }
-    }   
+    if ( estado == "Sin iniciar"){
+        color = "#FF0000"; 
+    }else if ( estado == "Iniciado"){
+        color = "#FFAE00"; 
+    }else if ( estado == "Avanzado"){
+        color = "#578DF2"; 
+    }else if ( estado == "Detenido"){
+        color = "#913674"; 
+    }else if ( estado == "Finalizado"){
+        color = "#1AD691"; 
+    }else if ( estado == "Terminado"){
+        color = "#3DA844"; 
+    } 
+
+    return color;
   }
 
+ 
 
-  /** GESTIÓN TAREAS */
-  public selecionarTarea(id){
-    this.tareaSel = id;
-  }
-
-  public borrarTarea(){
-    let resp = false;
-    if ( this.tareaSel !=""){
-      resp =  confirm("¿Desea borrar esta tarea?");
-      if ( resp ){
-        //alert("boorado tarea id="+this.tareaSel);  
-        this._tareaservice.borraTarea(this.tareaSel).subscribe(result =>{ 
-          this.listarTareas()},
-          error => { this.errorMessage = <any>error;
-                if(this.errorMessage !== null){
-                    console.log(this.errorMessage);
-            } 
-          });
-      }
-    }
-  }
-
-  public editarTarea(){
-    if ( this.tareaSel !=""){
-      //this.router.navigateByUrl('/tarea/'+this.tareaSel);
-      var id = this.tareaSel;
+  public editarTarea(id){
       this.router.navigate(['/tarea', id ]);
-    }
   }
 
 

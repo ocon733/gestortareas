@@ -1,65 +1,62 @@
 <h3>TAREA</h3><hr/>
 
-<form>
-    <div class="well">
-<div class="row" >
-    <div class="col-md-10 form-group">
-      <div class="novalido" [hidden]="desc_valido"></div>
-      <div class="valido" [hidden]="!desc_valido"></div>
-      <label >Descripción tarea:</label>
-      <textarea rows="5" (change)="validar()" maxlength="200"
-       [(ngModel)]="tarea.descripcion" name="descripcion" [ngModelOptions]="{standalone: true}"></textarea> 
-    
-  </div> 
-  </div> 
-  <div class="row" >
-  <div class="col-md-6 form-group">
-    <div class="novalido" [hidden]="proyecto_valido"></div>
-    <div class="valido" [hidden]="!proyecto_valido"></div>
-    <label for="cbproyectos">Proyecto:</label> 
-    <select id="cbproyectos" [(ngModel)]="tarea.idproyecto" [ngModelOptions]="{standalone: true}" (change)="validar()">
-      <option value="">- Seleccionar -</option>
-      <option *ngFor="let item of proyectos" value="{{item.id_proyecto}}">{{item.nombre_proyecto}}</option>
-    </select>
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+ <section class="well">
+    <article class="row" >
+      <div class="col-md-10 form-group">
+        <div *ngIf= "!descripciont.valid" class="novalido" ></div>
+        <label >Descripción tarea:</label>
+        <textarea rows="5" maxlength="200" name="descripcion" ngModel required minlength="5" #descripciont="ngModel"  [ngModel]="tarea.descripcion" ></textarea> 
+      </div> 
+    </article> 
+    <article class="row" >
+      <div class="col-md-6 form-group">
+        <div class="novalido" [hidden]="proyecto_valido"></div>
+        <div class="valido" [hidden]="!proyecto_valido"></div>
+        <label for="cbproyectos">Proyecto:</label> 
+        <select id="cbproyectos" [(ngModel)]="tarea.idproyecto" [ngModelOptions]="{standalone: true}" (change)="validar()">
+          <option value="">- Seleccionar -</option>
+          <option *ngFor="let item of proyectos" value="{{item.id_proyecto}}">{{item.nombre_proyecto}}</option>
+        </select>
+      </div>
+      <div class="col-md-6 form-group">
+          <div class="novalido" [hidden]="estado_valido"></div>
+          <div class="valido" [hidden]="!estado_valido"></div>
+          <label >Estado:</label> 
+          <select id="cbestado" [(ngModel)]="tarea.estado" [ngModelOptions]="{standalone: true}" (change)="validar()">
+            <option value="">- Seleccionar -</option>
+            <option value="Sin iniciar">Sin iniciar</option>
+            <option value="Iniciado">Iniciado</option>
+            <option value="Avanzado">Avanzado</option>
+            <option value="Detenido">Detenido</option>
+            <option value="Finalizado">Finalizado</option>
+            <option value="Terminado">Terminado</option>
+          </select>
+      </div>
+    </article>
+
+    <article class="row" >
+      <div class="col-md-6 form-group">
+          <label style="vertical-align:top;padding-top:8px;">Fecha inicio:</label> 
+          <my-date-picker name="fechaInicio" [options]="myDatePickerOptions"
+          [(ngModel)]="modelfini" ></my-date-picker>
+          
+      </div>
+      <div class="col-md-6 form-group">
+          <label style="vertical-align:top;padding-top:8px;">Fecha fin:</label> 
+          <my-date-picker name="fechaFin" [options]="myDatePickerOptions"
+          [(ngModel)]="modelffin" ></my-date-picker>
+          
+      </div>
+    </article>
+  </section>
+
+
+  <div class="well" style="text-align: right">
+      <button  class="btn btn-info" (click)="cancelarTarea()">Cancelar</button>
+      <button class="btn btn-danger" (click)="borrarTarea()">Borrar</button>
+      <button type="submit" class="btn btn-success" >Guardar</button>
   </div>
-  <div class="col-md-6 form-group">
-      <div class="novalido" [hidden]="estado_valido"></div>
-      <div class="valido" [hidden]="!estado_valido"></div>
-    <label >Estado:</label> 
-    <select id="cbestado" [(ngModel)]="tarea.estado" [ngModelOptions]="{standalone: true}" (change)="validar()">
-      <option value="">- Seleccionar -</option>
-      <option value="Sin iniciar">Sin iniciar</option>
-      <option value="Iniciado">Iniciado</option>
-      <option value="Avanzado">Avanzado</option>
-      <option value="Detenido">Detenido</option>
-      <option value="Finalizado">Finalizado</option>
-      <option value="Terminado">Terminado</option>
-    </select>
-    </div>
-</div>
 
-<div class="row" >
-  <div class="col-md-6 form-group">
-      <label style="vertical-align:top;padding-top:8px;">Fecha inicio:</label> 
-      <my-date-picker name="fechaInicio" [options]="myDatePickerOptions"
-      [(ngModel)]="modelfini" ></my-date-picker>
-      
-     </div>
-  <div class="col-md-6 form-group">
-      <label style="vertical-align:top;padding-top:8px;">Fecha fin:</label> 
-      <my-date-picker name="fechaFin" [options]="myDatePickerOptions"
-      [(ngModel)]="modelffin" ></my-date-picker>
-      
-    </div>
-</div>
-
-
-</div>
 </form>
-
-<div class="well">
-    <button class="btn btn-info" (click)="cancelarTarea()">Cancelar</button>
-    <button class="btn btn-success" (click)="guardarTarea()">Guardar</button>
- </div>
-
 

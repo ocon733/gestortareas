@@ -2,19 +2,19 @@
 <div class="panel panel-default">
   <div class="panel-heading">Acceso Gestor de Tareas</div>
   <div class="panel-body">
+    <form (ngSubmit)="entradalogin()" #login>
       <div class="form-group">
         <label  style="width:100px;">Usuario</label>
-        <input type="text" placeholder="demo" [(ngModel)]="userlogin.email" />
+        <input type="text" placeholder="demo" class="form-control" [(ngModel)]="userlogin.email" #user="ngModel" name="user" />
       </div>  
       <div class="form-group">
         <label style="width:100px;">Clave</label>
-        <input type="password"  [(ngModel)]="userlogin.clave" placeholder="demo" />
+        <input type="password" class="form-control" [(ngModel)]="userlogin.clave" placeholder="demo" #pass="ngModel" name="pass"/>
       </div>  
       <div class="form-group pull-right">
-        <button type="button" class="btn btn-default" (click)="entradalogin()">
-          Entrar
-        </button>
+        <button type="submit" class="btn btn-success">Entrar</button>
       </div>  
+    </form>  
   </div>  
 </div>
 </div>
