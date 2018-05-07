@@ -7,12 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PieComponent implements OnInit {
 
-  AnyoActual:string;
+  AnyoActual: string;
   constructor() { }
 
   ngOnInit() {
-   let fecha = new Date();
-   this.AnyoActual = "" + fecha.getFullYear(); 
+   const fecha = new Date();
+   this.AnyoActual = '' + fecha.getFullYear(); 
   }
 
 }

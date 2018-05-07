@@ -5,8 +5,6 @@ import { GlobalService } from '../global.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-proyecto',
   providers: [],
@@ -15,10 +13,10 @@ import { NgForm } from '@angular/forms';
 })
 export class ProyectoComponent implements OnInit {
 
-  proyecto:Proyectos = new Proyectos();
+  proyecto: Proyectos = new Proyectos();
   id:number;
   
-  constructor(private _tareaservice: TareasService,private _global: GlobalService,private route: ActivatedRoute,private router:Router) { }
+  constructor(private _tareaservice: TareasService, private _global: GlobalService, private route: ActivatedRoute, private router:Router) { }
 
   ngOnInit() {
     var param = this.route.params.subscribe(params => {

@@ -7,11 +7,12 @@ import { RouterModule, Routes} from '@angular/router';
 import { MyDatePickerModule  } from 'mydatepicker';
 import { TareasModule } from './tareas/tareas.module';
 import { AppComponent } from './app.component';
-import {AppRoutingModule} from './app-routing.module';
+import { AppRoutingModule} from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { PieComponent } from './pie/pie.component';
 import { MenuComponent } from './menu/menu.component';
+
 
 
 @NgModule({

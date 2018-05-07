@@ -21,37 +21,49 @@
           <label >Estado:</label> 
           <select id="cbestado" [(ngModel)]="filtro.estado" [ngModelOptions]="{standalone: true}"  class="form-control" (ngModelChange)="listarTareas()">
             <option value=""></option>
-            <option value="Sin iniciar">Sin iniciar</option>
-            <option value="Iniciado">Iniciado</option>
-            <option value="Avanzado">Avanzado</option>
-            <option value="Detenido">Detenido</option>
-            <option value="Finalizado">Finalizado</option>
-            <option value="Terminado">Terminado</option>
+            <option value="0">Sin iniciar</option>
+            <option value="1">Iniciado</option>
+            <option value="2">Avanzado</option>
+            <option value="3">Detenido</option>
+            <option value="4">Casi terminado</option>
+            <option value="5">Finalizado</option>
           </select>
-      </div>
+        </div>
+        <div class="col-sm-2">
+          <label>Ocultar finalizados
+            <input type="checkbox" class="form-check-input" [(ngModel)]="!verTerminados" [ngModelOptions]="{standalone: true}" (change)="aplicaFiltro()">
+          </label>   
+        </div>
     </form>
     </div>
      <div class="contenTable">
     <table class="table table-bordered table-responsive table-striped table-hover" >
       <thead>
-        <th class="text-center">Proyecto</th>
+        <th class="text-center"><a (click)="ordena('nombreproyecto')">Proyecto</a></th>
         <th class="text-center">Descripción</th>
-        <th class="text-center">Estado</th>
+        <th class="text-center"><a (click)="ordena('estado')">Estado</a></th>
         <th class="text-center">Fecha inicio</th>
         <th class="text-center">Fecha fin</th>
       </thead>
       <tr *ngFor="let item of tareas" (click)="editarTarea(item.id)">
         <td class="cursor">{{item.nombreproyecto}}</td>
         <td class="cursor">{{item.descripcion}}</td>
-        <td class="text-center cursor" [style.color]= "colorEstado(item.estado)">{{item.estado}}</td>
+        <td class="text-center cursor" [style.color]= "colorEstado(item.estado)">{{item.estado | formatoEstado}}</td>
         <td class="text-center cursor">{{item.fechaInicio}}</td>
         <td class="text-center cursor">{{item.fechaFin}}</td>
       </tr>
     </table>
  
+<!--
+  <ul>
+    <li *ngFor="let item of proyect | async">{{ prueba(item).nombre_proyecto}}</li>
+  </ul>  
+-->
+   
+
   </div>
-  <footer class="well" style="text-align: right">
-    
+  <footer class="well">
+    Tareas encontradas : <span class="badge">{{tareas ? tareas.length : 0}} </span>
   </footer>
 </section>
 

@@ -25,12 +25,12 @@
           <label >Estado:</label> 
           <select id="cbestado" [(ngModel)]="tarea.estado" [ngModelOptions]="{standalone: true}" (change)="validar()">
             <option value="">- Seleccionar -</option>
-            <option value="Sin iniciar">Sin iniciar</option>
-            <option value="Iniciado">Iniciado</option>
-            <option value="Avanzado">Avanzado</option>
-            <option value="Detenido">Detenido</option>
-            <option value="Finalizado">Finalizado</option>
-            <option value="Terminado">Terminado</option>
+            <option value="0">Sin iniciar</option>
+            <option value="1">Iniciado</option>
+            <option value="2">Avanzado</option>
+            <option value="3">Detenido</option>
+            <option value="4">Casi terminado</option>
+            <option value="5">Finalizado</option>
           </select>
       </div>
     </article>

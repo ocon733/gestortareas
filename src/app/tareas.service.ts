@@ -11,47 +11,46 @@ export class TareasService {
   constructor(private _http: Http) {}
 
   getProyectos(iduser) {
-      return this._http.get( environment.rutaphp + "/php/proyectos.php?iduser="+iduser).map( res => res.json() );
+      return this._http.get( environment.rutaphp + 
+        '/php/proyectos.php?iduser=' + iduser).map( res => res.json() );
     }
 
   setProyectos(proyecto) {
-      return this._http.get( environment.rutaphp + "/php/altaProyecto.php?idUsuario="+proyecto.idUsuario+"&nombre="+proyecto.nombre_proyecto+"&descripcion="+proyecto.descripcion).map( res => res.json() );
+      return this._http.get( environment.rutaphp + 
+        '/php/altaProyecto.php?idUsuario=' + proyecto.idUsuario + '&nombre=' + 
+        proyecto.nombre_proyecto + '&descripcion=' + proyecto.descripcion).map( res => res.json() );
     }
     
-
-  getTareas(iduser,idproyecto,descripcion,estado) {
-      return this._http.get( environment.rutaphp + "/php/tareasPendientes.php?iduser="+iduser+"&idproyecto="+idproyecto+"&descripcion="+descripcion+"&estado="+estado).map( res => res.json() );
+  getTareas(iduser, idproyecto, descripcion, estado) {
+      return this._http.get( environment.rutaphp + '/php/tareasPendientes.php?iduser=' +
+       iduser + '&idproyecto=' + idproyecto+'&descripcion=' + descripcion + '&estado=' + estado).map( res => res.json() );
     }  
 
-  getLogin(email,clave) {
-      return this._http.get( environment.rutaphp + "php/login.php?email="+email+"&clave="+clave).map( res => res.json() );
+  getLogin(email, clave) {
+      return this._http.get( environment.rutaphp + 'php/login.php?email=' + email +
+       '&clave=' + clave).map( res => res.json() );
     }
   
-  setTarea(tarea){
+  setTarea(tarea) {
     return this._http.get( environment.rutaphp + 
-      "php/altaTarea.php?descripcion="+ tarea.descripcion + "&estado="+tarea.estado + "&fechaInicio="+tarea.fechaInicio + "&fechaFin=" + tarea.fechaFin + "&idUsuario="+tarea.idUsuario + "&idproyecto=" + tarea.idproyecto
-      ).map( res => res.json() );
+      'php/altaTarea.php?descripcion=' + tarea.descripcion + '&estado='+tarea.estado + '&fechaInicio='+tarea.fechaInicio +
+       '&fechaFin=' + tarea.fechaFin + '&idUsuario='+tarea.idUsuario + '&idproyecto=' + tarea.idproyecto).map( res => res.json() );
   }  
 
-  updateTarea(tarea){
+  updateTarea(tarea) {
     return this._http.get( environment.rutaphp + 
-      "php/updateTarea.php?idTarea=" + tarea.id + "&descripcion="+ tarea.descripcion + "&estado="+tarea.estado + "&fechaInicio="+tarea.fechaInicio + "&fechaFin=" + tarea.fechaFin + "&idUsuario="+tarea.idUsuario + "&idproyecto=" + tarea.idproyecto
-      ).map( res => res.json() );
+      'php/updateTarea.php?idTarea=' + tarea.id + '&descripcion='+ tarea.descripcion + '&estado='+tarea.estado + '&fechaInicio=' + 
+      tarea.fechaInicio + '&fechaFin=' + tarea.fechaFin + '&idUsuario=' + tarea.idUsuario + '&idproyecto=' +
+       tarea.idproyecto).map( res => res.json() );
   }
 
-  borraTarea(id){
-    return this._http.get( environment.rutaphp + 
-      "php/bajaTarea.php?idTarea=" + id   ).map( res => res.json() );
+  borraTarea(id) {
+    return this._http.get( environment.rutaphp + 'php/bajaTarea.php?idTarea=' + id   ).map( res => res.json() );
   }
 
-
-
-
-  getTarea(idTarea){
+  getTarea(idTarea) {
     return this._http.get( environment.rutaphp + 
-      "php/cargarTarea.php?idTarea="+ idTarea ).map( res => res.json() );
+      'php/cargarTarea.php?idTarea=' + idTarea ).map( res => res.json() );
   }  
-  
-  
 
 }

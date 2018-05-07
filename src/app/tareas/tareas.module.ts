@@ -12,7 +12,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from '../app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyDatePickerModule } from 'mydatepicker';
-
+import {FormatoEstadoPipe} from '../formato-estado.pipe';
 
 @NgModule({
   imports: [
@@ -27,11 +27,12 @@ import { MyDatePickerModule } from 'mydatepicker';
     PendientesComponent,
     TareaComponent,
     ProyectoComponent,
-    CabeceraComponent
+    CabeceraComponent,
+    FormatoEstadoPipe
     
   ],
   exports:[
-    LoginComponent,CabeceraComponent
+    LoginComponent,CabeceraComponent,FormatoEstadoPipe
   ],
   entryComponents:[
   ]

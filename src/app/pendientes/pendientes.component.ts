@@ -7,34 +7,43 @@ import { trigger,  state,  style,  animate,  transition } from '@angular/core';
 import { GlobalService } from '../global.service';
 import { Formatos} from '../utilidades/formatos';
 import { Observable} from 'rxjs/Rx';
+import { FormatoEstadoPipe } from '../formato-estado.pipe';
 
 @Component({
   selector: 'app-pendientes',
   providers: [],
   templateUrl: './pendientes.component.html',
   styleUrls: ['./pendientes.component.css'],
-  animations:[
+  animations: [
     trigger('filtroVisible',[
-      state('conFiltro', style({display:'block',transform: 'scale(1)'})),
-      state('sinFiltro', style({display:'none',transform: 'scale(0)'})),
+      state('conFiltro', style({display: 'block',transform: 'scale(1)'})),
+      state('sinFiltro', style({display: 'none',transform: 'scale(0)'})),
       transition('conFiltro => sinFiltro', animate('600ms')),
       transition('sinFiltro => conFiltro', animate('600ms'))
     ])
   ]
 })
 export class PendientesComponent implements OnInit {
-  public tareas:Tareas[];
-  public filtro:Tareas;
-  public proyectos:Proyectos[];
-  public errorMessage:any;
-  public mostrar:string = "conFiltro";
-  public tareaSel:string = "";
+  public tareas: Tareas[];
+  public filtro: Tareas;
+  public proyectos: Proyectos[];
+  public errorMessage: any;
+  public mostrar: string = "conFiltro";
+  public tareaSel: string = "";
+  public verTerminados = false;
+  public ordenAscendente = false;
+  public campo: string;
+
+  // public proyect: Observable<Array<Proyectos>>;
   
   @ViewChild('descripciont') descripciont: ElementRef; 
 
   constructor(private _tareaservice: TareasService,private _global: GlobalService, private router:Router) {
 
       this._global.cargando = false;
+
+      // this.proyect = _tareaservice.getProyectos(_global.usuario.idUser);
+
       _tareaservice.getProyectos(_global.usuario.idUser).subscribe(result=>{
           this.actualizaProyecto(result);
           this._global.cargando = true;
@@ -51,14 +60,13 @@ export class PendientesComponent implements OnInit {
   ngOnInit() {  
     this.filtro = new Tareas(); 
     this.filtro.descripcion = "";
-
     
     Observable.fromEvent(this.descripciont.nativeElement, 'keyup')
-    .map((e:any)=> e.target.value)
+    .map((e: any)=> e.target.value)
     .filter(x=>x.length > 3 || x.length == 0)
     .debounceTime(2000)
     .distinctUntilChanged()
-    .switchMap(word => this._tareaservice.getTareas(this._global.usuario.idUser,this.filtro.idproyecto,this.filtro.descripcion,this.filtro.estado))
+    .switchMap(word => this._tareaservice.getTareas(this._global.usuario.idUser, this.filtro.idproyecto, this.filtro.descripcion, this.filtro.estado))
     .subscribe(result =>{ 
       this.pintaTabla(result);
       this._global.cargando = true;},
@@ -68,13 +76,12 @@ export class PendientesComponent implements OnInit {
                       console.log(this.errorMessage);
                   } 
      }); 
-     
 
     this.listarTareas();
   }
 
-
   actualizaProyecto(obj){
+    this._global.cargando = true;
     var proyect : Proyectos;
     var misproyectos : Proyectos[] = [] ;
                     if (obj != null){  
@@ -93,8 +100,19 @@ export class PendientesComponent implements OnInit {
     this.proyectos = misproyectos;                
   }
 
+/*
+  prueba(item:any):Proyectos{
+    item = JSON.parse(item);
+    let proyecto:Proyectos = new Proyectos();
+    proyecto.id_proyecto   =  item.id_proyecto;
+    proyecto.idUsuario = item.idUsuario;
+    proyecto.nombre_proyecto  = item.nombre_proyecto;
+    proyecto.descripcion = item.descripcion;
+    return proyecto;
+  }
+*/
 
-  mostrarFiltro(elem,txt){
+  mostrarFiltro(elem,txt) {
     
     if ( this.mostrar == 'sinFiltro') {
       this.mostrar = 'conFiltro';
@@ -108,9 +126,14 @@ export class PendientesComponent implements OnInit {
   }
 
 
-  listarTareas(){
+  aplicaFiltro() {
+    this.verTerminados = !this.verTerminados;
+    this.listarTareas();
+  }
+
+  listarTareas() {
     this._global.cargando = false;
-     this._tareaservice.getTareas(this._global.usuario.idUser,this.filtro.idproyecto,this.filtro.descripcion,this.filtro.estado).subscribe(result =>{ 
+     this._tareaservice.getTareas(this._global.usuario.idUser, this.filtro.idproyecto, this.filtro.descripcion, this.filtro.estado).subscribe(result =>{ 
        this.pintaTabla(result);
        this._global.cargando = true;},
           error => { this.errorMessage = <any>error;
@@ -126,7 +149,7 @@ export class PendientesComponent implements OnInit {
     var tarea : Tareas;
     var tareas : Tareas[] = [] ;
                     if (obj != null){  
-                      obj.forEach(function (item){
+                      obj.forEach( (item) => {
                         item = JSON.parse(item);
                           tarea = new Tareas();
                           tarea.id   =  item.id;
@@ -140,31 +163,34 @@ export class PendientesComponent implements OnInit {
                           tarea.descripcion = item.descripcion;
                           tarea.idproyecto = item.id_proyecto;
                           tarea.nombreproyecto = item.nombre_proyecto;
-                          tareas.push(tarea);
+                          if ( tarea.estado != "5" || this.verTerminados){
+                            tareas.push(tarea);
+                          }
                       
                       });
                     }
     this.tareas = tareas;   
     this.tareaSel = "";
+    
   }
 
 
 
-  public colorEstado(estado:string){
-    let color:string="#000000";
+  public colorEstado(estado:string) {
+    let color: string="#000000";
 
-    if ( estado == "Sin iniciar"){
+    if ( estado == "0"){
         color = "#FF0000"; 
-    }else if ( estado == "Iniciado"){
+    }else if ( estado == "1"){
         color = "#FFAE00"; 
-    }else if ( estado == "Avanzado"){
+    }else if ( estado == "2"){
         color = "#578DF2"; 
-    }else if ( estado == "Detenido"){
+    }else if ( estado == "3"){
         color = "#913674"; 
-    }else if ( estado == "Finalizado"){
-        color = "#1AD691"; 
-    }else if ( estado == "Terminado"){
+    }else if ( estado == "4"){
         color = "#3DA844"; 
+    }else if ( estado == "5"){
+        color = "#1AD691"; 
     } 
 
     return color;
@@ -178,8 +204,35 @@ export class PendientesComponent implements OnInit {
 
 
 
-
-
+  public ordena(campo:string) {
    
+    let orden = this.ordenAscendente;
+    this.ordenAscendente = !this.ordenAscendente;
+    this.campo = campo;
+
+    this.tareas.sort( 
+
+      (a:any, b:any) => {
+
+        if ( campo == "estado"){
+          if ( orden ){
+            return b.estado - a.estado;
+          }else{
+            return a.estado - b.estado;
+          }
+        }else if ( campo == "nombreproyecto"){
+          if ( orden ){
+            if (b.nombreproyecto < a.nombreproyecto ) return -1;
+            else if (b.nombreproyecto > a.nombreproyecto ) return 1;
+            else return 0;
+          }else{
+            if (b.nombreproyecto < a.nombreproyecto ) return 1;
+            else if (b.nombreproyecto > a.nombreproyecto ) return -1;
+            else return 0;
+          }
+        }
+      });
+
+  }
 
 }

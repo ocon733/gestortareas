@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  rutaphp: "http://localhost/gestortareas/"
+  rutaphp: 'http://localhost/gestortareas/'
 };

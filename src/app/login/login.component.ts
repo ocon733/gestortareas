@@ -15,14 +15,11 @@ export class LoginComponent  {
   @Output()
   emLogin = new EventEmitter();
 
-  public userlogin:Usuarios = new Usuarios();    
-  public errorMensaje:any;
-  constructor(private _tareaservice: TareasService,private _global: GlobalService, private router:Router) {  }
+  public userlogin: Usuarios = new Usuarios();    
+  public errorMensaje: any;
+  constructor(private _tareaservice: TareasService, private _global: GlobalService, private router: Router) {  }
 
-
-
-
-  entradalogin(){
+  entradalogin() {
     this._global.cargando = false;
     this._tareaservice.getLogin(this.userlogin.email,this.userlogin.clave).subscribe(
         result =>{ this.validaLogin(result);
@@ -37,10 +34,10 @@ export class LoginComponent  {
         });  
   }
 
-  validaLogin(obj){
-    if (obj != null && obj !=""){  
-      var user:Usuarios = new Usuarios();  
-      obj.forEach(function (item){
+  validaLogin(obj) {
+    if (obj != null && obj !="") {  
+      var user: Usuarios = new Usuarios();  
+      obj.forEach(function (item) {
         item = JSON.parse(item);
         user.idUser = item.idUsuario;
         user.nombre = item.nombre;
@@ -49,18 +46,17 @@ export class LoginComponent  {
         user.clave = item.clave;
       });
       
-      //guarda en el servicio globar el usuario logueado
+      // guarda en el servicio globar el usuario logueado
       this._global.usuario = user;
-      //lanza el evento de usuario logueado
+      // lanza el evento de usuario logueado
       this.emLogin.emit({usuario:user});
-      //muestra la pagina de tareas
+      // muestra la pagina de tareas
       this.router.navigateByUrl('/pendientes');
     }else{
       this.userlogin = new Usuarios();    
     }
 
   }
-
 } 
 
 
