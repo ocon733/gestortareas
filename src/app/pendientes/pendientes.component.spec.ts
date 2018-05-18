@@ -1,3 +1,4 @@
+/*
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PendientesComponent } from './pendientes.component';
@@ -23,3 +24,4 @@ describe('PendientesComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/

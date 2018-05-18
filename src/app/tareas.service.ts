@@ -5,6 +5,7 @@ import { Tareas} from './model/tareas';
 import { Proyectos} from './model/proyectos';
 import 'rxjs/add/operator/map';
 
+
 @Injectable()
 export class TareasService {
 
@@ -23,7 +24,7 @@ export class TareasService {
     
   getTareas(iduser, idproyecto, descripcion, estado) {
       return this._http.get( environment.rutaphp + '/php/tareasPendientes.php?iduser=' +
-       iduser + '&idproyecto=' + idproyecto+'&descripcion=' + descripcion + '&estado=' + estado).map( res => res.json() );
+       iduser + '&idproyecto=' + idproyecto+'&descripcion=' + descripcion + '&estado=' + estado).map( res => res);
     }  
 
   getLogin(email, clave) {

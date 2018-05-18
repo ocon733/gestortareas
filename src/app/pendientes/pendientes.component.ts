@@ -149,6 +149,7 @@ export class PendientesComponent implements OnInit {
     var tarea : Tareas;
     var tareas : Tareas[] = [] ;
                     if (obj != null){  
+                      obj = obj.json();
                       obj.forEach( (item) => {
                         item = JSON.parse(item);
                           tarea = new Tareas();
