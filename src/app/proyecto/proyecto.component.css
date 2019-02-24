@@ -18,3 +18,18 @@ label{
 .well {
     padding: 10px;
 }
+
+.cursor {
+    cursor: pointer;
+}
+
+.contenTable{
+    margin-left: 50px;
+    margin-right: 10px;
+    max-width: 500px;
+    text-align: center;
+}
+
+th {
+    cursor: pointer;
+}

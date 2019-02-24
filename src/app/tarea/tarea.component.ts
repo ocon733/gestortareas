@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {IMyDpOptions} from 'mydatepicker';
 import { GlobalService } from '../global.service';
 import { ElementDef } from '@angular/core/src/view';
+import { Subtarea } from '../model/subtarea';
 
 @Component({
   selector: 'app-tarea',
@@ -16,6 +17,7 @@ import { ElementDef } from '@angular/core/src/view';
 export class TareaComponent implements OnInit {
 
   public tarea:Tareas = new Tareas();
+  public subtareas: Subtarea[] = [];
   public errorMessage:any;
   public proyectos:Proyectos[];
   public id:number;  
@@ -51,7 +53,7 @@ export class TareaComponent implements OnInit {
 
     if( !isNaN(this.id)){
     this._tareaservice.getTarea(this.id).subscribe(result=>{
-      this.cargarTarea(result)
+      this.cargarTarea(result);
       },
       error => { this.errorMessage = <any>error;
               if(this.errorMessage !== null){
@@ -59,7 +61,6 @@ export class TareaComponent implements OnInit {
                } 
       });
     }
-
   }
 
   actualizaProyecto(obj){
@@ -99,12 +100,82 @@ export class TareaComponent implements OnInit {
 
     this.modelfini = this.setFecha(tareatmp.fechaInicio);
     this.modelffin = this.setFecha(tareatmp.fechaFin);
-    this.tarea = tareatmp;    
+    this.tarea = tareatmp;   
+    
+    this.cargaSubtareas();
+
+
     this.validar();            
   }
 
   cancelarTarea(){
     this.router.navigateByUrl('/pendientes');
+  }
+
+  cargaSubtareas(){
+    this._tareaservice.getSubtareas(this.id).subscribe(result=>{
+      this.pintaSubTareas(result)
+      },
+      error => { this.errorMessage = <any>error;
+              if(this.errorMessage !== null){
+                   console.log(this.errorMessage);
+               } 
+      });
+
+  }
+
+
+  setSubTarea(idSubTarea, estado){
+
+    if ( estado == 1){
+       estado = 0;
+    }else{
+      estado = 1;
+    }
+    this._tareaservice.setSubtareas(idSubTarea, estado).subscribe(result=>{ },
+      error => { this.errorMessage = <any>error;
+        if(this.errorMessage !== null){
+             console.log(this.errorMessage);
+         } 
+    });
+  }
+
+  nuevaSubTarea( descripcion, $event){
+
+    $event.preventDefault();
+    if ( descripcion.value != ""){
+      this._tareaservice.nuevaSubtarea( this.id, descripcion.value).subscribe(result=>{  this.cargaSubtareas(); },
+      error => { this.errorMessage = <any>error;
+          if(this.errorMessage !== null){
+               console.log(this.errorMessage);
+          } 
+      });
+      descripcion.value = "";
+
+    }
+  }
+
+
+
+  pintaSubTareas(obj:any){
+    
+    let subtmp: Subtarea;
+    let subtareas: Subtarea[] = [];
+    this.subtareas = [];
+    if (obj != null){  
+      obj.forEach(function (item){ 
+        item = JSON.parse(item);
+        subtmp = new Subtarea();
+        subtmp.id   =  item.id;
+        subtmp.id_tarea = item.id_tarea;
+        subtmp.descripcion = item.descripcion;
+        subtmp.estado = item.estado;
+        subtareas.push(subtmp);
+      });
+    }
+
+    this.subtareas = subtareas;
+
   }
 
 
@@ -117,7 +188,6 @@ export class TareaComponent implements OnInit {
       let resp = false;
       resp =  confirm("¿Desea borrar esta tarea?");
         if ( resp ){
-      
           this._tareaservice.borraTarea(this.tarea.id).subscribe(result =>{ 
             this.cancelarTarea(),
             error => { this.errorMessage = <any>error;
@@ -126,9 +196,27 @@ export class TareaComponent implements OnInit {
               } 
             }
         });
+      
       }
     }  
   }
+
+
+ public borrarSubtarea(idSubTarea, $event){
+   let resp = false;
+   $event.preventDefault();
+   resp =  confirm("¿Desea borrar esta subtarea?");
+   if ( resp ){
+      this._tareaservice.borrarSubtarea(idSubTarea).subscribe(result=>{ this.cargaSubtareas(); },
+      error => { this.errorMessage = <any>error;
+        if(this.errorMessage !== null){
+           console.log(this.errorMessage);
+       } 
+      });
+      
+    }
+ }
+
 
 
   onSubmit(form:any){
@@ -217,6 +305,9 @@ export class TareaComponent implements OnInit {
 
 
   }
+
+
+
 
 
 }

@@ -15,8 +15,21 @@ export class ProyectoComponent implements OnInit {
 
   proyecto: Proyectos = new Proyectos();
   id:number;
+  public errorMessage:any;
+  public proyectos:Proyectos[];
+
   
-  constructor(private _tareaservice: TareasService, private _global: GlobalService, private route: ActivatedRoute, private router:Router) { }
+  constructor(private _tareaservice: TareasService, private _global: GlobalService, private route: ActivatedRoute, private router:Router) { 
+    _tareaservice.getProyectos(_global.usuario.idUser).subscribe(result=>{
+      this.cargaProyecto(result)
+      },
+      error => { this.errorMessage = <any>error;
+              if(this.errorMessage !== null){
+                   console.log(this.errorMessage);
+               } 
+      });
+   }
+  
 
   ngOnInit() {
     var param = this.route.params.subscribe(params => {
@@ -43,6 +56,44 @@ export class ProyectoComponent implements OnInit {
               alert("Error al guardar la tarea");
             });
          }
+
+
+borrarProyecto(id){
+
+  let resp = false;
+  resp =  confirm("¿Desea borrar este proyecto?");
+  if ( resp ){
+    this._tareaservice.borraProyecto(id).subscribe(result=>{
+     this.router.navigateByUrl('/pendientes');
+    },
+    error => { 
+      alert("Error al borrar el proyecto");
+    });
+  }
+
+
+ }
+
+
+ cargaProyecto(obj){
+  var proyect : Proyectos;
+  var misproyectos : Proyectos[] = [] ;
+                  if (obj != null){  
+                    obj.forEach(function (item){
+                      item = JSON.parse(item);
+                        proyect = new Proyectos();
+                        proyect.id_proyecto   =  item.id_proyecto;
+                        proyect.idUsuario = item.idUsuario;
+                        proyect.nombre_proyecto  = item.nombre_proyecto;
+                        proyect.descripcion = item.descripcion;
+                        misproyectos.push(proyect);
+                    
+                    });
+                  }
+  this.proyectos = misproyectos;                
+}
+
+
 }
 
        

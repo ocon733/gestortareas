@@ -21,6 +21,10 @@ export class TareasService {
         '/php/altaProyecto.php?idUsuario=' + proyecto.idUsuario + '&nombre=' + 
         proyecto.nombre_proyecto + '&descripcion=' + proyecto.descripcion).map( res => res.json() );
     }
+
+  borraProyecto(id) {
+      return this._http.get( environment.rutaphp + 'php/bajaProyecto.php?idProyecto=' + id   ).map( res => res.json() );
+    }  
     
   getTareas(iduser, idproyecto, descripcion, estado) {
       return this._http.get( environment.rutaphp + '/php/tareasPendientes.php?iduser=' +
@@ -53,5 +57,23 @@ export class TareasService {
     return this._http.get( environment.rutaphp + 
       'php/cargarTarea.php?idTarea=' + idTarea ).map( res => res.json() );
   }  
+
+  getSubtareas(idTarea){
+    return this._http.get( environment.rutaphp + 'php/getSubtareas.php?idTarea=' + idTarea).map( res => res.json());
+  }
+
+  setSubtareas(idSubTarea, estado){
+    return this._http.get( environment.rutaphp + 'php/setSubtarea.php?idSubTarea=' + idSubTarea + "&estado=" + estado).map( res => res.json());
+  }
+
+  nuevaSubtarea(idTarea, descripcion){
+    return this._http.get ( environment.rutaphp + 'php/nuevaSubtarea.php?idTarea=' + idTarea + '&descripcion=' + descripcion).map ( res=> res.json());
+  }
+
+  borrarSubtarea(idSubTarea){
+    return this._http.get ( environment.rutaphp + 'php/borrarSubtarea.php?idSubTarea=' + idSubTarea).map ( res=> res.json());
+  }
+
+
 
 }

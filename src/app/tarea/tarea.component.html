@@ -6,7 +6,7 @@
       <div class="col-md-10 form-group">
         <div *ngIf= "!descripciont.valid" class="novalido" ></div>
         <label >Descripción tarea:</label>
-        <textarea rows="5" maxlength="200" name="descripcion" ngModel required minlength="5" #descripciont="ngModel"  [ngModel]="tarea.descripcion" ></textarea> 
+        <textarea rows="5" maxlength="2000" name="descripcion" ngModel required minlength="5" #descripciont="ngModel"  [ngModel]="tarea.descripcion" ></textarea> 
       </div> 
     </article> 
     <article class="row" >
@@ -46,17 +46,49 @@
           <label style="vertical-align:top;padding-top:8px;">Fecha fin:</label> 
           <my-date-picker name="fechaFin" [options]="myDatePickerOptions"
           [(ngModel)]="modelffin" ></my-date-picker>
-          
       </div>
     </article>
+
   </section>
 
+    <div class="well">
+    <article class="row">
+    <div class="contenTable col-md-12">
+      <h4>Subtareas:</h4>
+      <table class="table table-bordered table-responsive table-striped" >
+        <thead>
+          <th class="text-center">Descripción subtarea</th>
+          <th class="text-center">Terminado</th>
+          <th class="text-center">Borrar</th>
+        </thead>
+        <tr *ngFor="let item of subtareas">
+          <td>{{item.descripcion}}</td>
+          <td class="text-center cursor">
+            <input type="checkbox" [checked]="item.estado == 1" (click)="setSubTarea(item.id, item.estado)">
+          </td>
+          <td class="text-center">
+            <button class="btn btn-danger btn-sm" (click)="borrarSubtarea(item.id, $event)" title="Borrar">X</button>
+          </td>
 
-  <div class="well" style="text-align: right">
-      <button  class="btn btn-info" (click)="cancelarTarea()">Cancelar</button>
-      <button class="btn btn-danger" (click)="borrarTarea()">Borrar</button>
-      <button type="submit" class="btn btn-success" >Guardar</button>
+        </tr>
+      </table>
+    </div> 
+    </article>
+
+    <article class="row">
+      <div class="col-md-12">
+          <input type="text" #nombreSubtarea value="" class="col-sm-8 col-md-8">
+          <button class="btn btn-info btn-sm col-sm-2 col-md-2 botonsubt " (click)="nuevaSubTarea(nombreSubtarea,$event)" >Añadir subtarea</button>
+      </div>
+    </article>
   </div>
+
+
+  <footer class="well" style="text-align: right">
+      <button  class="btn btn-info btn-sm" (click)="cancelarTarea()">Cancelar</button>
+      <button class="btn btn-sm btn-danger" (click)="borrarTarea()">Borrar</button>
+      <button type="submit" class="btn btn-success btn-sm" >Guardar</button>
+  </footer>
 
 </form>
 

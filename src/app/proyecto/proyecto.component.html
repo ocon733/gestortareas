@@ -1,6 +1,6 @@
 <h3>PROYECTO</h3><hr/>
 
-<form #form="ngForm" (ngSubmit)="guardarProyecto(form)">
+<form #form="ngForm">
   <section class="well">
     <article class="row" >
         <div class="col-md-10 form-group">
@@ -16,12 +16,32 @@
         <label >Descripción del proyecto:</label>
         <input type="text" size="80" maxlength="100" #descproyecto="ngModel" ngModel required name="descripcion"> 
       </div> 
-    </article> 
+    </article>
 
+    <article class="row" >
+    <div class="contenTable">
+        <h4>Proyectos actuales</h4>
+      <table class="table table-bordered table-responsive table-striped table-hover" >
+        <thead>
+          <th class="text-center">ID</th>
+          <th class="text-center">Proyecto</th>
+          <th >Descripción</th>
+          <th class="text-center"></th>
+        </thead>
+        <tr *ngFor="let item of proyectos" >
+          <td >{{item.id_proyecto}}</td>
+          <td >{{item.nombre_proyecto}}</td>
+          <td class="text-center">{{item.descripcion}}</td>
+          <td class="text-center"><button class="btn btn-danger" (click)="borrarProyecto(item.id_proyecto)">Borrar</button></td>
+        </tr>
+      </table>
+      </div>
+    </article>
 
   </section>
   <section class="well" style="text-align: right">
     <button class="btn btn-info" (click)="cancelarTarea()">Cancelar</button>
-    <button [disabled] = "!form.valid" class="btn btn-success" type="submit" >Guardar</button>
+    <button [disabled] = "!form.valid" class="btn btn-success" (click)="guardarProyecto(form)">Guardar</button>
+
   </section>
 </form>

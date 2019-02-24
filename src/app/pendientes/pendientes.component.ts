@@ -60,7 +60,11 @@ export class PendientesComponent implements OnInit {
   ngOnInit() {  
     this.filtro = new Tareas(); 
     this.filtro.descripcion = "";
-    
+
+    if ( this._global.idProyecto != undefined && this.filtro.idproyecto == 0){
+      this.filtro.idproyecto = this._global.idProyecto;
+    }
+
     Observable.fromEvent(this.descripciont.nativeElement, 'keyup')
     .map((e: any)=> e.target.value)
     .filter(x=>x.length > 3 || x.length == 0)
@@ -100,17 +104,6 @@ export class PendientesComponent implements OnInit {
     this.proyectos = misproyectos;                
   }
 
-/*
-  prueba(item:any):Proyectos{
-    item = JSON.parse(item);
-    let proyecto:Proyectos = new Proyectos();
-    proyecto.id_proyecto   =  item.id_proyecto;
-    proyecto.idUsuario = item.idUsuario;
-    proyecto.nombre_proyecto  = item.nombre_proyecto;
-    proyecto.descripcion = item.descripcion;
-    return proyecto;
-  }
-*/
 
   mostrarFiltro(elem,txt) {
     
@@ -172,7 +165,7 @@ export class PendientesComponent implements OnInit {
                     }
     this.tareas = tareas;   
     this.tareaSel = "";
-    
+    this._global.idProyecto = this.filtro.idproyecto;
   }
 
 

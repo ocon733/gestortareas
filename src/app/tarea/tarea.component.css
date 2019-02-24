@@ -23,4 +23,16 @@ textarea{
 
 .well {
     padding: 10px;
+    margin: 10px;
 }
+
+.botonsubt{
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+footer{
+    margin-bottom: 20px !important;
+}
+
+
