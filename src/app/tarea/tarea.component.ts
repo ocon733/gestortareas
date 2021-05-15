@@ -5,7 +5,6 @@ import { TareasService } from '../tareas.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {IMyDpOptions} from 'mydatepicker';
 import { GlobalService } from '../global.service';
-import { ElementDef } from '@angular/core/src/view';
 import { Subtarea } from '../model/subtarea';
 
 @Component({

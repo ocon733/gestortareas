@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes} from '@angular/router';
-import { MyDatePickerModule  } from 'mydatepicker';
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { TareasModule } from './tareas/tareas.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule} from './app-routing.module';

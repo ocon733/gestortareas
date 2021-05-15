@@ -3,25 +3,15 @@ import { Tareas} from '../model/tareas';
 import { Proyectos} from '../model/proyectos';
 import { Router } from '@angular/router';
 import { TareasService } from '../tareas.service';
-import { trigger,  state,  style,  animate,  transition } from '@angular/core';
 import { GlobalService } from '../global.service';
 import { Formatos} from '../utilidades/formatos';
 import { Observable} from 'rxjs/Rx';
-import { FormatoEstadoPipe } from '../formato-estado.pipe';
 
 @Component({
   selector: 'app-pendientes',
   providers: [],
   templateUrl: './pendientes.component.html',
-  styleUrls: ['./pendientes.component.css'],
-  animations: [
-    trigger('filtroVisible',[
-      state('conFiltro', style({display: 'block',transform: 'scale(1)'})),
-      state('sinFiltro', style({display: 'none',transform: 'scale(0)'})),
-      transition('conFiltro => sinFiltro', animate('600ms')),
-      transition('sinFiltro => conFiltro', animate('600ms'))
-    ])
-  ]
+  styleUrls: ['./pendientes.component.css']
 })
 export class PendientesComponent implements OnInit {
   public tareas: Tareas[];

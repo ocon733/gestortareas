@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from '../app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MyDatePickerModule } from 'mydatepicker';
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import {FormatoEstadoPipe} from '../formato-estado.pipe';
 
 @NgModule({
@@ -20,7 +20,7 @@ import {FormatoEstadoPipe} from '../formato-estado.pipe';
     FormsModule,       
     HttpModule,   
     BrowserAnimationsModule,
-    MyDatePickerModule
+    AngularMyDatePickerModule
   ],
   declarations: [
     LoginComponent,    
